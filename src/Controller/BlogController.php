@@ -18,7 +18,14 @@ class BlogController extends AbstractController
     */
     public function index(): Response
     {
-        return $this->render('blog/index.html.twig');
+        $articles = $this->getDoctrine()->getRepository(Article::class)->findBy(
+            ["is_published" => true],
+            ["publication_date" => "desc"]
+        );
+
+        return $this->render('blog/index.html.twig', [
+            "articles" => $articles
+        ]);
     }
 
     /** 
@@ -125,10 +132,10 @@ class BlogController extends AbstractController
     /** 
     * @Route("/show/{id}", name= "article_show")
     */
-    public function show($id): Response
+    public function show(Article $article): Response
     {
         return $this->render('blog/show.html.twig', [
-            "id" => $id
+            "article" => $article
         ]);
     }
 }
