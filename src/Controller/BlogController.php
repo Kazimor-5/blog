@@ -66,7 +66,7 @@ class BlogController extends AbstractController
             $em->persist($article);
             $em->flush();
 
-            return new Response('L\'article a bien été modifié.');
+            return $this->redirectToRoute("homepage");
         }
 
     return $this->render("blog/edit.html.twig", [
@@ -112,7 +112,7 @@ class BlogController extends AbstractController
             $em->persist($article);
             $em->flush();
 
-            return new Response("L'article a bien été enregistré");
+            return $this->redirectToRoute("homepage");
         }
 
 
@@ -124,9 +124,12 @@ class BlogController extends AbstractController
     /** 
     * @Route("/remove/{id}", name= "article_remove")
     */
-    public function remove($id): Response
+    public function remove(Article $article): Response
     {
-        return new Response("<h1>Article $id supprimé</h1>");
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($article);
+        $em->flush();
+        return $this->redirectToRoute("homepage");
     }
 
     /** 
