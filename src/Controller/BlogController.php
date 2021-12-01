@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\User;
 use App\Form\ArticleType;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -135,10 +136,26 @@ class BlogController extends AbstractController
     /** 
     * @Route("/show/{id}", name= "article_show")
     */
-    public function show(Article $article): Response
-    {
+    public function show(Article $article): Response {
         return $this->render('blog/show.html.twig', [
             "article" => $article
+        ]);
+    }
+
+    /**
+     * @Route("/admin", name="admin")
+     */
+    public function admin() {
+        $articles = $this->getDoctrine()->getRepository(Article::class)-> findBy(
+            [],
+            ["last_update_time" => "desc"]
+        );
+
+        $users = $this->getDoctrine()->getRepository(User::class)->findAll();
+
+        return $this->render("admin/index.html.twig", [
+            "articles" => $articles,
+            "users" => $users
         ]);
     }
 }

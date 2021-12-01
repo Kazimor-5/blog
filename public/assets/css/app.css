@@ -54,3 +54,7 @@ nav {
   color: #e04447;
   font-size: 12px;
 }
+
+span.badge.new:after {
+  content: "";
+}
