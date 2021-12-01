@@ -2,18 +2,41 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}Symfony Blog{% endblock %}</title>
         {# Run `composer require symfony/webpack-encore-bundle`
-           and uncomment the following Encore helpers to start using Symfony UX #}
+        and uncomment the following Encore helpers to start using Symfony UX #}
         {% block stylesheets %}
-            {#{{ encore_entry_link_tags('app') }}#}
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+            <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
         {% endblock %}
 
         {% block javascripts %}
-            {#{{ encore_entry_script_tags('app') }}#}
+            <script defer src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+            <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+            <script defer type="text/javascript">
+                document.addEventListener('DOMContentLoaded', function () {
+                const elems = document.querySelectorAll('select');
+                const instances = M.FormSelect.init(elems);
+                });
+            </script>
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <nav>
+            <div class="nav-wrapper">
+                <div class="container">
+                    <a href="#" class="brand-logo">Symfony Blog</a>
+                    <ul id="nav-mobile" class="right hide-on-med-and-down">
+                        <li>
+                            <a href="#">Home</a>
+                        </li>
+                        <li>
+                            <a href="#">Login</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        {% block content %}{% endblock %}
     </body>
 </html>
