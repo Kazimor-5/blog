@@ -2,15 +2,16 @@
 
 namespace App\Controller;
 
-use App\Entity\Article;
-use App\Entity\User;
-use App\Form\ArticleType;
 use DateTime;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use App\Entity\User;
+use App\Entity\Article;
+use App\Form\ArticleType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class BlogController extends AbstractController
 {
@@ -31,6 +32,7 @@ class BlogController extends AbstractController
 
     /** 
     * @Route("/edit/{id}", name= "article_edit")
+    * @IsGranted("ROLE_ADMIN")
     */
     public function edit(Article $article, Request $request): Response {
         $oldPicture = $article->getPicture();
@@ -78,6 +80,7 @@ class BlogController extends AbstractController
 
     /** 
     * @Route("/add", name= "article_add")
+    * @IsGranted("ROLE_ADMIN")
     */
     public function add(Request $request): Response
     {
@@ -144,6 +147,7 @@ class BlogController extends AbstractController
 
     /**
      * @Route("/admin", name="admin")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function admin() {
         $articles = $this->getDoctrine()->getRepository(Article::class)-> findBy(
